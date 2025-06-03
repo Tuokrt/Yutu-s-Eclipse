@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public float runSpeed = 10f;
+    private float currentRunSpeed;// 当前速度
+    private Coroutine speedBoostCoroutine; // 速度提升协程引用
+
     public float jumpForce = 6f;
     public float checkRadius = 0.05f;
     public LayerMask groundLayer;
@@ -29,9 +33,15 @@ public class PlayerController : MonoBehaviour
     public float jumpBufferTime = 0.2f;
     public float lastJumpPressTime = -10f;
     private bool jumpWasPressed = false;
+
+    // 粒子系统缓存
+    private ParticleSystem[] particles;
+    private Color originalColor;
+
     // Start is called before the first frame update
     void Start()
     {
+        currentRunSpeed = runSpeed;
         buttonOffset = new Vector2(0f, -0.5f);
         rb = GetComponent<Rigidbody2D>();
         mybody = GetComponent<PolygonCollider2D>();
@@ -47,6 +57,7 @@ public class PlayerController : MonoBehaviour
         die();
         win();
     }
+    
     void checkStinger()
     {
         isStinger = mybody.IsTouchingLayers(LayerMask.GetMask("Stinger"));
@@ -60,7 +71,6 @@ public class PlayerController : MonoBehaviour
         isStinger = mybody.IsTouchingLayers(LayerMask.GetMask("Stinger"));
         isGround = Physics2D.OverlapCircle((Vector2)transform.position + buttonOffset, checkRadius, groundLayer);
         isWin = mybody.IsTouchingLayers(LayerMask.GetMask("winFlag"));
-        isTouchingRunFast = mybody.IsTouchingLayers(LayerMask.GetMask("runFast"));
     }
     void ProcessJumpInput()
     {
@@ -73,19 +83,6 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         rb.velocity = new Vector2(runSpeed, rb.velocity.y);
-    }
-    void runFastStart()
-    {
-        if (isTouchingRunFast && (onlyone == 1))
-        {
-            onlyone = 0;
-            runSpeed = runSpeed * runFastScale;
-            runFastTime = 3f;
-        }
-    }
-    void runFastDuration()
-    {
-
     }
 
     void tryJump()
@@ -128,6 +125,7 @@ public class PlayerController : MonoBehaviour
     }
     public void SetGravityScale(float scale)
     {
-        GetComponent<Rigidbody2D>().gravityScale = scale;
+        rb.gravityScale = scale;
     }
+
 }
