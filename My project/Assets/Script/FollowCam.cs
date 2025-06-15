@@ -93,14 +93,14 @@ public class AdvancedFollowCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shouldVector3 = new Vector3(target.position.x + 2f, 0f, -10f); ;
+        shouldVector3 = new Vector3(target.position.x + 2f, target.position.y, -10f); ;
         transform.position = shouldVector3;
     }
 
     // Update is called once per frame
     void Update()
     {
-        shouldVector3 = new Vector3(target.position.x + 2f, 0f, -10f); ;
+        shouldVector3 = new Vector3(target.position.x + 2f, target.position.y, -10f); ;
         transform.position = shouldVector3;
     }
 }
