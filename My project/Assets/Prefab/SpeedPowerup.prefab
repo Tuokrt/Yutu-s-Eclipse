@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1016957411175325283}
   - component: {fileID: 6303093794191883357}
   - component: {fileID: 8437772424531642582}
-  - component: {fileID: 332720568746082050}
+  - component: {fileID: 2259680228682215000}
   m_Layer: 0
   m_Name: SpeedPowerup
-  m_TagString: Untagged
+  m_TagString: SpeedBoost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +160,7 @@ PolygonCollider2D:
       - {x: 0.26, y: 0.24}
       - {x: 0.25, y: 0.26}
   m_UseDelaunayMesh: 0
---- !u!114 &332720568746082050
+--- !u!114 &2259680228682215000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,9 +169,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5134534260741385359}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a830c393a682106459987219c471f16d, type: 3}
+  m_Script: {fileID: 11500000, guid: e65b26bb61c85eb488b3d9f0e18f0a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinSpeed: 180
+  spinSpeed: 90
   floatAmplitude: 0.5
   floatFrequency: 1

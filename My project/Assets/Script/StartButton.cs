@@ -7,7 +7,7 @@ public class StartButton : MonoBehaviour
 {
    public void StartGame()
     {
-        SceneManager.LoadScene("Checkpoint-test");
+        SceneManager.LoadScene("chooseOutPost");
     }
    
 }
