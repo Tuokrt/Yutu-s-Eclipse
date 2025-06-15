@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+  - SpeedBoost
+  - JumpBoost
   layers:
   - Default
   - TransparentFX

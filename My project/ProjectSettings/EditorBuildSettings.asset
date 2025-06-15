@@ -8,4 +8,28 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/checkpoint-test.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/startScene.unity
+    guid: 8d676eea6dc9ad74c9eb2ab42fe19221
+  - enabled: 1
+    path: Assets/Scenes/fifthOutPost.unity
+    guid: 1ae9cb48f631d3c4ea21b319d3d4ab89
+  - enabled: 1
+    path: Assets/Scenes/firstOutPost.unity
+    guid: a3a7d170d00ef8644aec4b23986437ef
+  - enabled: 1
+    path: Assets/Scenes/fouthOutPost.unity
+    guid: 0fc4bbb699edc924eb7e9ac4c220140b
+  - enabled: 1
+    path: Assets/Scenes/secondOutPost.unity
+    guid: 381a977c0f506d541a083da808c2a797
+  - enabled: 1
+    path: Assets/Scenes/sixthOutPost.unity
+    guid: d0bd0b434bf22184cb763fee9a1fa3ec
+  - enabled: 1
+    path: Assets/Scenes/thirdOutPost.unity
+    guid: 705c7afd089614446a306dd4dee8db56
+  - enabled: 1
+    path: Assets/Scenes/chooseOutPost.unity
+    guid: a7097ca5f53ba854bb77fe4803df8493
   m_configObjects: {}

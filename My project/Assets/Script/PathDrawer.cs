@@ -108,7 +108,7 @@ public class PathDrawer : MonoBehaviour
         // 减缓玩家行动
         if (playerController != null)
         {
-            playerController.runSpeed = originalPlayerSpeed * slowdownFactor;
+            playerController.currentSpeed = originalPlayerSpeed * slowdownFactor;
             playerController.GetComponent<Rigidbody2D>().gravityScale = originalGravityScale * slowdownFactor;
         }
 
@@ -122,7 +122,7 @@ public class PathDrawer : MonoBehaviour
         // 恢复玩家行动
         if (playerController != null)
         {
-            playerController.runSpeed = originalPlayerSpeed;
+            playerController.currentSpeed = originalPlayerSpeed;
             playerController.GetComponent<Rigidbody2D>().gravityScale = originalGravityScale;
         }
 

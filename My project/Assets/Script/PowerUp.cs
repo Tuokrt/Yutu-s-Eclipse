@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedPowerup : MonoBehaviour
+public class PowerUp : MonoBehaviour
 {
     public float spinSpeed = 90f;
     public float floatAmplitude = 0.5f;

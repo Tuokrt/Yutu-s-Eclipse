@@ -1,21 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Set in Inspector")]
+    [Header("关于加速道具效果")]
     public float runSpeed = 10f;
-    private float currentRunSpeed;// 当前速度
-    private Coroutine speedBoostCoroutine; // 速度提升协程引用
+    public float currentSpeed;// 当前速度
+    public float boostSpeed = 13f;
+    public float goFastTime = 0;
+    public float boostSpeedTime = 3f;
+    public bool isBoostedSpeed = false;
+
+    [Header("关于跳跃能力增强道具")]
+    public float boostJumpForce = 15f;
+    public bool isBoostedJump = false;
+
 
     public float jumpForce = 6f;
     public float checkRadius = 0.05f;
     public LayerMask groundLayer;
     public Vector2 buttonOffset;
-    public float runFastTime = 0f;
-    public float runFastScale = 1.3f;
     public float runFastStartTime;
     public float runFastEndTime;
     public int onlyone = 1;
@@ -41,7 +50,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentRunSpeed = runSpeed;
+        currentSpeed = runSpeed;
         buttonOffset = new Vector2(0f, -0.5f);
         rb = GetComponent<Rigidbody2D>();
         mybody = GetComponent<PolygonCollider2D>();
@@ -52,6 +61,7 @@ public class PlayerController : MonoBehaviour
     {
         ProcessJumpInput();
         check();
+        HandleBoost();
         Move();
         tryJump();
         die();
@@ -71,6 +81,7 @@ public class PlayerController : MonoBehaviour
         isStinger = mybody.IsTouchingLayers(LayerMask.GetMask("Stinger"));
         isGround = Physics2D.OverlapCircle((Vector2)transform.position + buttonOffset, checkRadius, groundLayer);
         isWin = mybody.IsTouchingLayers(LayerMask.GetMask("winFlag"));
+
     }
     void ProcessJumpInput()
     {
@@ -82,17 +93,23 @@ public class PlayerController : MonoBehaviour
     }
     void Move()
     {
-        rb.velocity = new Vector2(runSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
     }
 
     void tryJump()
     {
         bool withinBuffer = (Time.time - lastJumpPressTime) <= jumpBufferTime;
+        if (isBoostedJump)
+        {
+            jumpForce = boostJumpForce;
+        }
         if (Input.GetButtonDown("Jump")&&isGround )
         {
             Vector2 JumpVel = new Vector2(0.0f, jumpForce);
             rb.velocity = Vector2.up * JumpVel;
             isJumping = true;
+            EndJumpBoost();
+           
         }else if((jumpWasPressed && withinBuffer)&&isGround)
         {
             Vector2 JumpVel = new Vector2(0.0f, jumpForce);
@@ -101,6 +118,7 @@ public class PlayerController : MonoBehaviour
 
             jumpWasPressed = false;
             lastJumpPressTime = -10f;
+            EndJumpBoost() ;
         }
         
                   
@@ -127,5 +145,50 @@ public class PlayerController : MonoBehaviour
     {
         rb.gravityScale = scale;
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SpeedBoost"))
+        {
+            ActivateSpeedBoost();
+            Destroy(collision.gameObject);
+        }
+        if (collision.CompareTag("JumpBoost"))
+        {
+            isBoostedJump = true;
+            Destroy(collision.gameObject);
+        }
+    }
+    public void ActivateSpeedBoost()
+    {
+        goFastTime = boostSpeedTime;
+        isBoostedSpeed = true;
+        currentSpeed = boostSpeed;
+    }
+    private void HandleBoost()
+    {
+        if (isBoostedSpeed)
+        {
+            // 更新加速倒计时
+            goFastTime -= Time.deltaTime;
 
+            // 加速时间结束
+            if (goFastTime <= 0)
+            {
+                EndSpeedBoost();
+            }
+        }
+       
+        
+    }
+    private void EndSpeedBoost()
+    {
+        isBoostedSpeed = false;
+        currentSpeed = runSpeed;  // 恢复基础速度
+        goFastTime = 0f;           // 重置计时器
+    }
+    private void EndJumpBoost()
+    {
+        isBoostedJump = false;
+        jumpForce = 10f;
+    }
 }
