@@ -14,6 +14,7 @@ public class PathDrawer : MonoBehaviour
     [Header("Õﬂ∆¨µÿÕº…Ë÷√")]
     public Tilemap drawableTilemap;
     public TileBase pathTile;
+  
 
     [SerializeField] List<DrawZone> drawZones = new List<DrawZone>();
     private DrawZone currentZone;
