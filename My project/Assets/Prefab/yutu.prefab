@@ -230,7 +230,10 @@ MonoBehaviour:
   boostJumpForce: 15
   isBoostedJump: 0
   originalJumpForce: 6
-  jumpForce: 10
+  frozenSpeed: 5
+  currentFrozenTime: 0
+  frozenSpeedTime: 2
+  jumpForce: 12
   checkRadius: 0.2
   groundLayer:
     serializedVersion: 2

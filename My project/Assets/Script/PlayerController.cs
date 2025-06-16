@@ -21,6 +21,21 @@ public class PlayerController : MonoBehaviour
     public bool isBoostedJump = false;
     public float originalJumpForce = 6f;
 
+    [Header("关于减速道具")]
+    public bool isFrozenSpeed = false;
+    public float frozenSpeed = 5f;
+    public float currentFrozenTime = 0;
+    public float frozenSpeedTime = 2f;
+
+    [Header("关于飞行道具")]
+    public bool isFlyMode = false;
+    public float boostFlyVercitalHeight = 3f;
+    public float flyForce = 8f;
+    public float flyDuration = 20f;
+    public float flyTimeLeft = 0;
+    public float originalGravityScale;
+    public float verticalFlySpeed = 5;
+
 
     public float jumpForce = 6f;
     public float checkRadius = 0.05f;
@@ -51,6 +66,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        originalGravityScale = rb.gravityScale;
         originalJumpForce = jumpForce;
         currentSpeed = runSpeed;
         buttonOffset = new Vector2(0f, -0.5f);
@@ -61,11 +77,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessJumpInput();
         check();
         HandleBoost();
-        Move();
-        tryJump();
+        HandleFlyMode();
+        if (!isFlyMode)
+        {
+            Move();
+            ProcessJumpInput();
+            tryJump();
+        }
         die();
         win();
     }
@@ -95,6 +115,7 @@ public class PlayerController : MonoBehaviour
     }
     void Move()
     {
+
         rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
     }
 
@@ -188,6 +209,23 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
             print("跳跃增强");
         }
+        if (collision.CompareTag("FrozenSpeed"))
+        {
+            FrozenSpeed();
+            Destroy(collision.gameObject);
+        }
+        if (collision.CompareTag("FlyFruit"))
+        {
+            StartFlyMode();
+            Destroy(collision.gameObject);
+            print("飞起来！");
+        }
+    }
+    public void FrozenSpeed()
+    {
+        currentFrozenTime = frozenSpeedTime;
+        isFrozenSpeed = true;
+        currentSpeed = frozenSpeed;
     }
     public void ActivateSpeedBoost()
     {
@@ -208,8 +246,55 @@ public class PlayerController : MonoBehaviour
                 EndSpeedBoost();
             }
         }
-       
-        
+        if(isFrozenSpeed)
+        {
+            currentFrozenTime -= Time.deltaTime;
+            if(currentFrozenTime <= 0)
+            {
+                EndFrozenSpeed();
+            }
+        }  
+    }
+    void HandleFlyMode()
+    {
+        if (isFlyMode)
+        {
+            float verticalInput = Input.GetAxis("Vertical");
+            if (verticalInput != 0)
+            {
+                rb.velocity = new Vector2(currentSpeed, verticalInput * verticalFlySpeed); ;
+            }
+            else
+            {
+                rb.velocity = new Vector2(currentSpeed, 0f);
+            }
+            flyTimeLeft -= Time.deltaTime;
+
+            if (flyTimeLeft <= 0)
+            {
+                EndFlyMode();
+            }
+        }
+    }
+    public void StartFlyMode()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, boostFlyVercitalHeight);
+        isFlyMode = true;
+        flyTimeLeft = flyDuration;
+
+        rb.gravityScale = 0f;
+        isStinger = false;
+    }
+    private void EndFlyMode()
+    {
+        isFlyMode = false;
+        flyTimeLeft = 0f;
+
+        // 恢复重力
+        rb.gravityScale = originalGravityScale;
+
+        // 初始化垂直速度
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
     }
     private void EndSpeedBoost()
     {
@@ -217,9 +302,16 @@ public class PlayerController : MonoBehaviour
         currentSpeed = runSpeed;  // 恢复基础速度
         goFastTime = 0f;           // 重置计时器
     }
+    private void EndFrozenSpeed()
+    {
+        isFrozenSpeed = false;
+        currentSpeed = runSpeed;
+        frozenSpeedTime = 0;
+    }
     private void EndJumpBoost()
     {
         isBoostedJump = false;
         jumpForce = 10f;
     }
+
 }
