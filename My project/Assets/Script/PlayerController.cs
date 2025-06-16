@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     public float originalGravityScale;
     public float verticalFlySpeed = 5;
 
+    [Header("关于边界判定")]
+    public float bottomY = -25;
+    public bool isOverY = false;
+
+
 
     public float jumpForce = 6f;
     public float checkRadius = 0.05f;
@@ -103,7 +108,7 @@ public class PlayerController : MonoBehaviour
         isStinger = mybody.IsTouchingLayers(LayerMask.GetMask("Stinger"));
         isGround = Physics2D.OverlapCircle((Vector2)transform.position + buttonOffset, checkRadius, groundLayer);
         isWin = mybody.IsTouchingLayers(LayerMask.GetMask("winFlag"));
-
+        isOverY = (transform.position.y<-25)?true:false;
     }
     void ProcessJumpInput()
     {
@@ -176,7 +181,7 @@ public class PlayerController : MonoBehaviour
     }
     void die()
     {
-        if(isStinger)
+        if(isStinger || isOverY)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
