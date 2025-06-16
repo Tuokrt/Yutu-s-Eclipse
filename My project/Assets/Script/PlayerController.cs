@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("关于跳跃能力增强道具")]
     public float boostJumpForce = 15f;
     public bool isBoostedJump = false;
+    public float originalJumpForce = 6f;
 
 
     public float jumpForce = 6f;
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        originalJumpForce = jumpForce;
         currentSpeed = runSpeed;
         buttonOffset = new Vector2(0f, -0.5f);
         rb = GetComponent<Rigidbody2D>();
@@ -99,12 +101,35 @@ public class PlayerController : MonoBehaviour
     void tryJump()
     {
         bool withinBuffer = (Time.time - lastJumpPressTime) <= jumpBufferTime;
-        if (isBoostedJump)
+        bool shouldJump = (Input.GetButtonDown("Jump") && isGround) ||
+                        (jumpWasPressed && withinBuffer && isGround);
+
+        if (shouldJump)
         {
-            jumpForce = boostJumpForce;
+            float currentJumpForce = isBoostedJump ? boostJumpForce : originalJumpForce;
+
+            Vector2 JumpVel = new Vector2(0.0f, currentJumpForce);
+            rb.velocity = Vector2.up * JumpVel;
+            isJumping = true;
+
+            // 如果是增强跳跃，仅重置标志位
+            if (isBoostedJump)
+            {
+                isBoostedJump = false;
+                // 不需要重置jumpForce，保持原始值
+            }
+
+            // 重置预输入状态
+            jumpWasPressed = false;
+            lastJumpPressTime = -10f;
         }
-        if (Input.GetButtonDown("Jump")&&isGround )
+
+        /*if (Input.GetButtonDown("Jump")&&isGround )
         {
+            if (isBoostedJump)
+            {
+                jumpForce = boostJumpForce;
+            }
             Vector2 JumpVel = new Vector2(0.0f, jumpForce);
             rb.velocity = Vector2.up * JumpVel;
             isJumping = true;
@@ -112,6 +137,10 @@ public class PlayerController : MonoBehaviour
            
         }else if((jumpWasPressed && withinBuffer)&&isGround)
         {
+            if (isBoostedJump)
+            {
+                jumpForce = boostJumpForce;
+            }
             Vector2 JumpVel = new Vector2(0.0f, jumpForce);
             rb.velocity = Vector2.up * JumpVel;
             isJumping = true;
@@ -120,8 +149,9 @@ public class PlayerController : MonoBehaviour
             lastJumpPressTime = -10f;
             EndJumpBoost() ;
         }
-        
-                  
+        */
+
+
     }
     void die()
     {
@@ -156,6 +186,7 @@ public class PlayerController : MonoBehaviour
         {
             isBoostedJump = true;
             Destroy(collision.gameObject);
+            print("跳跃增强");
         }
     }
     public void ActivateSpeedBoost()

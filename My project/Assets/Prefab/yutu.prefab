@@ -222,12 +222,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 6
+  currentSpeed: 0
   boostSpeed: 8
   goFastTime: 0
   boostSpeedTime: 3
   isBoostedSpeed: 0
   boostJumpForce: 15
   isBoostedJump: 0
+  originalJumpForce: 6
   jumpForce: 10
   checkRadius: 0.2
   groundLayer:
