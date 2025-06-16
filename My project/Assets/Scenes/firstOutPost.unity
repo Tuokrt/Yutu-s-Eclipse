@@ -772,8 +772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c17989a649fba949b8bf8a6b967c455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ecamera: {fileID: 572145721}
-  offset: {x: 0, y: 0, z: 10}
+  eyutu: {fileID: 1371207754}
+  offset: {x: 2.5, y: 0, z: 10}
 --- !u!1839735485 &611628853 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 7475760819008432180, guid: c352e5a06e3fec24ab6a71060e32e0be, type: 3}
@@ -5077,13 +5077,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: background 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3846906822048944175, guid: c352e5a06e3fec24ab6a71060e32e0be, type: 3}
+      propertyPath: m_BodyType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6344495107909908941, guid: c352e5a06e3fec24ab6a71060e32e0be, type: 3}
       propertyPath: m_ChunkCullingBounds.x
-      value: 0
+      value: 0.0033707619
       objectReference: {fileID: 0}
     - target: {fileID: 6344495107909908941, guid: c352e5a06e3fec24ab6a71060e32e0be, type: 3}
       propertyPath: m_ChunkCullingBounds.y
-      value: 0
+      value: 0.0033707619
       objectReference: {fileID: 0}
     - target: {fileID: 7873197626746915122, guid: c352e5a06e3fec24ab6a71060e32e0be, type: 3}
       propertyPath: m_Enabled

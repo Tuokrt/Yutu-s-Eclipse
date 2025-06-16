@@ -19,9 +19,9 @@ TagManager:
   - Ground
   - Stinger
   - winFlag
-  - 
-  - 
-  - 
+  - backGround
+  - yutu
+  - fruit
   - 
   - 
   - 
@@ -45,4 +45,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 750333421
+    locked: 0
+  - name: fruit
+    uniqueID: 493324365
+    locked: 0
+  - name: yutu
+    uniqueID: 2285748523
+    locked: 0
+  - name: winFlag
+    uniqueID: 1501373271
+    locked: 0
+  - name: Stinger
+    uniqueID: 2024404923
+    locked: 0
+  - name: backGround
+    uniqueID: 4076504333
     locked: 0
